@@ -3,7 +3,7 @@
 if [[ $1 == "-h" ]];
 then
     echo "USAGE :"
-    echo "      ./Check/find_bin.sh ninary_name"
+    echo "      ./palm-tree/find_bin.sh ninary_name"
     echo "      If all the conditions are validated  you can push on your repository"
     echo "      Enter 'y' if you want to push or 'n' if you don't want"
     echo "      If you enter 'y' enter your commit to push"
@@ -14,7 +14,7 @@ make
 make tests_run
 make clean
 clear
-bubulle > Check/norme
+bubulle > palm-tree/norme
 
 bin_file="$(find . -type f -name $1)"
 test_file="$(find . -type f -name "test")"
@@ -22,37 +22,40 @@ unw_file="$(find . -type f -name "#*#" -o -name "*.gcna" -o -name "*~" -o -name 
 unw_file+="$(find . -type d -name "tmp")"
 if [[ $bin_file != "" ]];
 then
-    echo "Find" > Check/resume
+    echo "Find" > palm-tree/resume
 else
-    echo "No_find" > Check/resume
+    echo "No_find" > palm-tree/resume
 fi;
 if [[ $test_file != "" ]];
 then
-    echo "Find" >> Check/resume
+    echo "Find" >> palm-tree/resume
 else
-    echo "No_find" >> Check/resume
+    echo "No_find" >> palm-tree/resume
 fi;
 for i in $unw_file ;
 do
-    echo "Find_unwanted_file : $i" >> Check/resume
+    echo "Find_unwanted_file : $i" >> palm-tree/resume
 done;
 if [[ $unw_file == "" ]];
 then
-    echo "No_unwanted_file_find" >> Check/resume
+    echo "No_unwanted_file_find" >> palm-tree/resume
 fi;
 
-./Check/print_check
+./palm-tree/print_check
+
 nb=1
 push=0
 
-for line in $(cat Check/push_that);
+for line in $(cat palm-tree/push_that);
 do
     if [ $nb -eq 1 ] && [ $line == "y" ];
     then
         make fclean
-        rm Check/norme
-        rm Check/resume
-        rm Check/push_that
+        rm test
+        rm lib/libmy.a
+        rm palm-tree/norme
+        rm palm-tree/resume
+        rm palm-tree/push_that
         git add .
         push=1
     fi;
@@ -64,4 +67,3 @@ do
     fi;
     nb=2
 done
-
